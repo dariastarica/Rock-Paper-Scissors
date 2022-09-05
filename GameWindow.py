@@ -11,6 +11,7 @@ class GameWindow(QWidget):
     def __init__(self, parent, total_rounds):
         super().__init__(parent)
 
+        self.player_last_choice = None
         self.parent = parent
         self.current_round_count = 1
         self.total_rounds = total_rounds
@@ -69,7 +70,7 @@ class GameWindow(QWidget):
         self.scissors_button.setIcon(QIcon("scissors.png"))
         self.scissors_button.setIconSize(QSize(100, 100))
 
-        self.scissors_button.clicked.connect((lambda : self.button_clicked(self.scissors_button.text().lower())))
+        self.scissors_button.clicked.connect((lambda: self.button_clicked(self.scissors_button.text().lower())))
 
         self.buttons_group_box_layout.addWidget(self.rock_button)
         self.buttons_group_box_layout.addWidget(self.paper_button)
@@ -83,6 +84,7 @@ class GameWindow(QWidget):
         self.setup_buttons()
 
         self.round_count_label = QLabel("Current Round: " + str(self.current_round_count))
+        self.round_count_label.setFont(QFont("Arial", 10))
 
         self.layout.addWidget(self.round_count_label)
         self.layout.addWidget(self.info_text_group_box)
@@ -93,16 +95,18 @@ class GameWindow(QWidget):
 
         # self.set_flat()
 
-
     def set_flat(self):
         self.info_text_group_box.setFlat(True)
         self.move_group_box.setFlat(True)
         self.buttons_group_box.setFlat(True)
 
     def button_clicked(self, player_choice):
-        computer_choice = utils.get_computer_choice()
+        computer_choice = utils.get_computer_choice(self.player_last_choice)
 
-        result_window = ResultWindow(self.parent, player_choice, computer_choice, self.current_round_count, self.total_rounds)
+        utils.update_matrix(self.player_last_choice, player_choice)
+        self.player_last_choice = player_choice
+        result_window = ResultWindow(self.parent, player_choice, computer_choice, self.current_round_count,
+                                     self.total_rounds)
 
         self.hide()
         result_window.show()

@@ -1,12 +1,21 @@
 import random
+from MarkovChain import Markov_Chain
 
-players_choices_list = []
+markov_chain = Markov_Chain()
 
 
-def get_computer_choice():
-    possible_moves = ["rock", "paper", "scissors"]
-    return random.choice(possible_moves)
-    # players_choices_list.append(last_player_choice)
+def get_computer_choice(player_last_move):
+    # possible_moves = ["rock", "paper", "scissors"]
+    # return random.choice(possible_moves)
+
+    choice = markov_chain.computer_next_move(player_last_move)
+
+    return choice
+
+
+def update_matrix(player_last, player_current):
+    if player_last is not None:
+        markov_chain.update_matrix(player_last, player_current)
 
 
 def decide_winner(players_choice, computer_choice):

@@ -1,7 +1,6 @@
-from PyQt5 import QtGui
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QGridLayout, QLineEdit, QGroupBox, QLabel, QMessageBox
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QGridLayout, QLineEdit, QGroupBox, QMessageBox, QLabel
 
 from GameWindow import GameWindow
 
@@ -14,7 +13,8 @@ class StartWindow(QWidget):
         self.total_rounds = 0
 
         self.start_button = QPushButton()
-        self.text_input = QLineEdit()
+
+        self.text_input = QLineEdit("3")
 
         self.layout = QVBoxLayout()
 
@@ -35,32 +35,21 @@ class StartWindow(QWidget):
 
         self.start_group_box.setLayout(self.start_group_box_layout)
 
-        label = QLabel("Number of rounds: ")
-        label.setFont(QFont("Arial", 10))
-        self.layout.layout().addItem(QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding))
+        label = QLabel("How many games would you want to play?")
+
         self.layout.addWidget(self.start_group_box)
-
-        text_input_group_box = QGroupBox()
-        text_input_group_box_layout = QVBoxLayout()
-
-        text_input_group_box_layout.addWidget(label)
-        text_input_group_box_layout.addWidget(self.text_input)
-
-        text_input_group_box.setLayout(text_input_group_box_layout)
-
-        self.layout.addWidget(text_input_group_box)
-
-        self.setLayout(self.layout)
+        self.layout.addWidget(label)
+        self.layout.addWidget(self.text_input)
 
         self.setLayout(self.layout)
 
     def start_button_clicked(self):
 
-        if self.text_input.text() == '':
+        if self.text_input.text() == '' or not self.text_input.text().isdecimal():
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
             msg.setText("Error")
-            msg.setInformativeText('More information')
+            msg.setInformativeText('Please enter how many games you want to play!')
             msg.setWindowTitle("Error")
             msg.exec_()
             return

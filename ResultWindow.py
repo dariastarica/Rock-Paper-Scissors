@@ -4,10 +4,6 @@ from PyQt5.QtWidgets import QWidget, QGroupBox, QHBoxLayout, QVBoxLayout, QLabel
 import utils
 
 
-def exit_button_clicked():
-    print("Exit")
-
-
 class ResultWindow(QWidget):
     def __init__(self, parent, player_choice, compute_choice, current_round_count, total_rounds):
         super().__init__(parent)
@@ -113,7 +109,7 @@ class ResultWindow(QWidget):
         self.exit_button.setFont(QFont("Arial", 10))
         self.exit_button.setEnabled(False)
         groupbox_layout = QHBoxLayout()
-        self.exit_button.clicked.connect(exit_button_clicked)
+        self.exit_button.clicked.connect(self.exit_button_clicked)
 
         groupbox_layout.addWidget(self.replay_button)
         groupbox_layout.addWidget(self.exit_button)
@@ -121,14 +117,15 @@ class ResultWindow(QWidget):
         groupbox.setLayout(groupbox_layout)
         return groupbox
 
+    def exit_button_clicked(self):
+        self.close()
+
     def replay_button_clicked(self):
-        if self.current_round_count <= int(self.total_rounds):
-            print(self.current_round_count)
+        if self.current_round_count < int(self.total_rounds):
             self.hide()
             self.current_round_count = self.current_round_count + 1
             self.parent.game_window.current_round_count = self.current_round_count
-            self.parent.game_window.round_count_label.setText(str(self.current_round_count))
+            self.parent.game_window.round_count_label.setText("Current round: " + str(self.current_round_count))
             self.parent.game_window.show()
         else:
-            print("aici")
             self.exit_button.setEnabled(True)
