@@ -1,5 +1,5 @@
 # Rock Paper Scissors
-## Made by Daria-Stefana Starica
+
 ### Disclaimer: I do not own any icon used for this project.
 
 * Paper, Rock and Scissors Icons:
